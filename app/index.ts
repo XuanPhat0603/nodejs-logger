@@ -9,6 +9,7 @@ import swaggerUi from "swagger-ui-express";
 import actorRoute from "./route/actor.route";
 import filmRoute from "./route/film.route";
 import path from "path";
+import logger from "./services/logger.service";
 
 const app = express();
 app.use(cors());
@@ -31,5 +32,6 @@ app.use((_, res: BaseResponse) => {
 });
 
 app.listen(process.env.PORT, () => {
+  logger.info(`Server running on port ${process.env.PORT}`);
   console.log(`Server is running on port http://localhost:${process.env.PORT}`);
 });

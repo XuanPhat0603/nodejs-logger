@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model logs {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime @default(now())
+  message   String
+  level     String
+}
+
 model actor {
   actor_id    Int          @id @default(autoincrement()) @db.UnsignedSmallInt
   first_name  String       @db.VarChar(45)

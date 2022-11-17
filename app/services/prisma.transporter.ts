@@ -9,6 +9,9 @@ export interface PrismaTransporterOptions extends TransportStreamOptions {
 export interface PrismaTransporterInfo {
   level: string;
   message: string;
+  url: string;
+  timestamp: string;
+  method: string;
 }
 
 export class PrismaWinstonTransporter extends Transport {
@@ -25,16 +28,17 @@ export class PrismaWinstonTransporter extends Transport {
 
   log(info: PrismaTransporterInfo, callback: Function): void {
     // get log content
-    const { level, message } = info;
-
+    const { level, message, url, timestamp, method } = info;
     setImmediate(async () => {
       this.emit("logged", info);
       // @ts-ignore
       await this.prisma[this.tableName].create({
         data: {
           level,
+          url,
+          method,
           message,
-          timestamp: new Date(),
+          timestamp: new Date(timestamp),
         },
       });
     });

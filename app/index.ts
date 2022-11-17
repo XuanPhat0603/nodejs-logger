@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { BaseResponse } from "./base/types/baseResponse";
 import { specs } from "./middleware/swagger.middleware";
-import express from "express";
+import express, { NextFunction } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
@@ -28,10 +28,20 @@ app.use(
   swaggerUi.setup(specs, { explorer: true })
 );
 app.use((_, res: BaseResponse) => {
+  logger.log({
+    level: "error",
+    url: _.originalUrl,
+    message: "Not Found",
+    method: _.method,
+  });
+
   res.status(404).json({ ok: false, message: "Not Found", data: null });
 });
 
 app.listen(process.env.PORT, () => {
-  logger.info(`Server running on port ${process.env.PORT}`);
-  console.log(`Server is running on port http://localhost:${process.env.PORT}`);
+  logger.log({
+    level: "info",
+    message: `Server is running on port ${process.env.PORT}`,
+  });
+  // console.log(`Server is running on port http://localhost:${process.env.PORT}`);
 });

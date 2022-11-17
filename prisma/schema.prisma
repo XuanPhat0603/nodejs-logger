@@ -9,9 +9,11 @@ datasource db {
 
 model logs {
   id        Int      @id @default(autoincrement())
-  timestamp DateTime @default(now())
-  message   String
   level     String
+  method    String   @default("")
+  url       String   @default("")
+  message   String   @default("")
+  timestamp DateTime @default(now())
 }
 
 model actor {

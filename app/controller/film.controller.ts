@@ -1,13 +1,27 @@
 import { BaseResponse } from "../base/types/baseResponse";
 import { prisma } from "../lib/prisma";
 import { Request } from "express";
+import logger from "../services/logger.service";
 
-export const getFilm = async (_: Request, res: BaseResponse) => {
+export const getFilm = async (req: Request, res: BaseResponse) => {
+  logger.log({
+    level: "info",
+    message: "Get film",
+    url: req.originalUrl,
+    method: req.method,
+  });
+
   const films = await prisma.film.findMany();
   res.json({ ok: true, data: films });
 };
 
 export const getFilmById = async (req: Request, res: BaseResponse) => {
+  logger.log({
+    level: "info",
+    message: "Get film by id",
+    url: req.originalUrl,
+    method: req.method,
+  });
   const film = await prisma.film.findUnique({
     where: {
       film_id: Number(req.params.id),
@@ -17,6 +31,13 @@ export const getFilmById = async (req: Request, res: BaseResponse) => {
 };
 
 export const postFilm = async (req: Request, res: BaseResponse) => {
+  logger.log({
+    level: "info",
+    message: "Post film",
+    url: req.originalUrl,
+    method: req.method,
+  });
+
   const film = await prisma.film.create({
     data: {
       title: req.body.title,
@@ -35,6 +56,13 @@ export const postFilm = async (req: Request, res: BaseResponse) => {
 };
 
 export const updateFilm = async (req: Request, res: BaseResponse) => {
+  logger.log({
+    level: "info",
+    message: "Update film",
+    url: req.originalUrl,
+    method: req.method,
+  });
+
   const film = await prisma.film.update({
     where: {
       film_id: Number(req.params.id),

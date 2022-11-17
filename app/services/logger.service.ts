@@ -4,8 +4,18 @@ import { prisma } from "../lib/prisma";
 
 const { combine, timestamp, printf } = format;
 
-const logFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} [${level}]: ${message}`;
+// const levels = {
+//   error: 0,
+//   warn: 1,
+//   info: 2,
+//   http: 3,
+//   verbose: 4,
+//   debug: 5,
+//   silly: 6,
+// };
+
+const logFormat = printf(({ level, url, method, message, timestamp }) => {
+  return `${timestamp} ${level}: ${url} ${method} ${message}`;
 });
 
 const logger = createLogger({
